@@ -39,15 +39,17 @@ function App() {
 
       setWeatherData(weatherResponse.data.list);
       setCountry(weatherResponse.data.country);
-      console.log(country);
-      console.log(countries[country]);
     } catch (e) {
       setError(e);
     } finally {
       setLoading(false);
     }
   }
-
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      getWeatherData();
+    }
+  };
   // Automatically refresh weather data when unitType or city changes
   useEffect(() => {
     if (city) {
@@ -71,6 +73,7 @@ function App() {
                 onChange={(e) => setCity(e.target.value)}
                 value={city}
                 placeholder="Enter city"
+                onKeyDown={handleKeyDown}
               />
               <Button className="ms-2" onClick={getWeatherData} variant="primary">
                 Submit
@@ -98,8 +101,8 @@ function App() {
                 </div>
               ) : (
                 <h3 className="mt-3">
-  {city && country ? `Weather in ${city}, ${countries[country]}` : city || country ? `Weather in ${city || country}` : 'Weather Info'}
-</h3>
+                  {city && country ? `Weather in ${city}, ${countries[country]}` : city || country ? `Weather in ${city || country}` : 'Weather Info'}
+                </h3>
 
               )}
             </div>
