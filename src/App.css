@@ -175,6 +175,15 @@ footer {
     border-top: 1px solid #eaeaea; /* Optional: border above footer */
     margin-top: auto; /* This ensures footer sticks at the bottom */
 }
+footer a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #0077b5; /* LinkedIn hover color */
+}
 
 /* Icon styling for footer */
 .footer-icon {
