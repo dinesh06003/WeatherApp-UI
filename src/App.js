@@ -19,7 +19,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
   const [unitType, setUnitType] = useState('imperial'); // State for the unit type
-  const [cityname, setCityName] = useState('');
+  const [cityname, setCityName] = useState(''); // city name for the header
 
   const unitTypeSymbol = {
     'imperial': '°F',
@@ -36,11 +36,11 @@ function App() {
       setLoading(true);
 
       // Make weather API call using axios
-      // const url = `http://localhost:8080/api/weather?city=${city}&unit=${unitType}`;
       const url = `https://weatherapp-api-ufow.onrender.com/api/weather?city=${city}&unit=${unitType}`;
-      const weatherResponse = await axios.get(
-        url
-      );
+      // const url = `http://localhost:8080/api/weather?city=${city}&unit=${unitType}`;
+
+      const weatherResponse = await axios.get(url);
+
       if (weatherResponse.status === 200) {
         setWeatherData(weatherResponse.data.list);
         setCountry(weatherResponse.data.country);
@@ -84,9 +84,23 @@ function App() {
     }
   }, [unitType]); // Re-run when unitType changes
 
+  // Show "Hello there" toast notification on first load
+  useEffect(() => {
+    toast.info("Due to limited resource 🛠 fetching might be slow ⏳..!😗😛    Thanks for visiting 🎉🕺💃", {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  }, []); // Empty dependency array for first-time load
+
   return (
     <>
       <ToastContainer /> {/* Toast Container for notifications */}
+
       {loading ? (
         <div className="w-100 min-vh-100 d-flex justify-content-center align-items-center">
           <Spinner animation="border" role="status">
@@ -104,6 +118,7 @@ function App() {
                 value={city}
                 placeholder="Enter city"
                 onKeyDown={handleKeyDown}
+                
               />
               <Button className="ms-2" onClick={getWeatherData} variant="primary">
                 Submit
@@ -131,7 +146,7 @@ function App() {
                 </div>
               ) : (
                 <h3 className="mt-3">
-                  {city && country ? `Weather in ${cityname}, ${countries[country]}` : 'Weather Info'}
+                  {city && country ? `Weather info in ${cityname}, ${countries[country]}` : ''}
                 </h3>
               )}
             </div>

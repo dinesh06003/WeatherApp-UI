@@ -141,6 +141,68 @@ button:hover {
     }
 }
 
+/* Ensure the body and html elements take full height */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+/* Main container for flex layout */
+.main-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Header section */
+header {
+    background-color: white;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: shadow effect */
+}
+
+header h1 {
+    color: #007bff; /* Header title color */
+}
+
+/* Footer section */
+footer {
+    background-color: white;
+    color: #333;
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid #eaeaea; /* Optional: border above footer */
+    margin-top: auto; /* This ensures footer sticks at the bottom */
+}
+
+/* Icon styling for footer */
+.footer-icon {
+    font-size: 30px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.footer-icon:hover {
+    transform: scale(1.2); /* Slightly enlarge icons on hover */
+}
+
+.linkedin-icon {
+    color: #0077b5; /* LinkedIn icon color */
+}
+
+.github-icon {
+    color: #333; /* GitHub icon color */
+}
+
+.gmail-icon {
+    color: #ea4335; /* Gmail icon color */
+}
+
+.footer-icon:hover {
+    color: #ff5700; /* Change color on hover */
+}
+
+
 @keyframes fadeInBounce {
     0% {
         opacity: 0;
