@@ -8,6 +8,8 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import Dropdown from 'react-bootstrap/Dropdown';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Import CSS for react-toastify
 import countries from './countries';
 
 function App() {
@@ -17,6 +19,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
   const [unitType, setUnitType] = useState('imperial'); // State for the unit type
+  const [cityname, setCityName] = useState('');
 
   const unitTypeSymbol = {
     'imperial': '°F',
@@ -33,23 +36,47 @@ function App() {
       setLoading(true);
 
       // Make weather API call using axios
+      // const url = `http://localhost:8080/api/weather?city=${city}&unit=${unitType}`;
+      const url = `https://weatherapp-api-ufow.onrender.com/api/weather/city=${city}&unit=${unitType}`;
       const weatherResponse = await axios.get(
-        `http://localhost:8080/api/weather?city=${city}&unit=${unitType}`
+        url
       );
-
-      setWeatherData(weatherResponse.data.list);
-      setCountry(weatherResponse.data.country);
+      if (weatherResponse.status === 200) {
+        setWeatherData(weatherResponse.data.list);
+        setCountry(weatherResponse.data.country);
+        setCityName(weatherResponse.data.city.name);
+        toast.success(`Weather data for ${weatherResponse.data.city.name} found!`, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
     } catch (e) {
       setError(e);
+      toast.error("City not found or API error occurred", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     } finally {
       setLoading(false);
     }
   }
+
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       getWeatherData();
     }
   };
+
   // Automatically refresh weather data when unitType or city changes
   useEffect(() => {
     if (city) {
@@ -59,6 +86,7 @@ function App() {
 
   return (
     <>
+      <ToastContainer /> {/* Toast Container for notifications */}
       {loading ? (
         <div className="w-100 min-vh-100 d-flex justify-content-center align-items-center">
           <Spinner animation="border" role="status">
@@ -70,7 +98,9 @@ function App() {
           <Row className="d-flex">
             <div className="text-center mt-5">
               <input
-                onChange={(e) => setCity(e.target.value)}
+                onChange={(e) => {
+                  setCity(e.target.value);
+                }}
                 value={city}
                 placeholder="Enter city"
                 onKeyDown={handleKeyDown}
@@ -101,9 +131,8 @@ function App() {
                 </div>
               ) : (
                 <h3 className="mt-3">
-                  {city && country ? `Weather in ${city}, ${countries[country]}` : city || country ? `Weather in ${city || country}` : 'Weather Info'}
+                  {city && country ? `Weather in ${cityname}, ${countries[country]}` : 'Weather Info'}
                 </h3>
-
               )}
             </div>
 
