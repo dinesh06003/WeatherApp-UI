@@ -37,7 +37,7 @@ function App() {
 
       // Make weather API call using axios
       // const url = `http://localhost:8080/api/weather?city=${city}&unit=${unitType}`;
-      const url = `https://weatherapp-api-ufow.onrender.com/api/weather/city=${city}&unit=${unitType}`;
+      const url = `https://weatherapp-api-ufow.onrender.com/api/weather?city=${city}&unit=${unitType}`;
       const weatherResponse = await axios.get(
         url
       );
